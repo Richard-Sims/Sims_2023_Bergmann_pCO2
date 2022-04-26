@@ -2795,7 +2795,7 @@ set(gca,'FontSize',12)
 m_gshhs_f('patch',[.5 .5 .5]);
 m_scatter(Berg19_co2_Longitude,Berg19_co2_Latitude,2,Berg19_co2_pco2_surface,'filled')
 colorbar
-%%     Figure 5 pco2 as a function of icebreakup by year
+%%     Figure 7 pco2 as a function of icebreakup by year
 h900=figure(900)
 set(gcf, 'Position', get(0, 'Screensize'));
 set(gcf,'color','w');
@@ -3097,10 +3097,10 @@ legend('EC tower derived','ONC mooring','Bathurst Inlet','Dease strait West','We
 ylabel('pCO_2 (ppm)')
 xlabel('Time');
 saveas(h8000,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Timeseries_pco2_kitikmeot.jpg')
-%%     Figure 6 pco2 from all sources in Kitikmeot as yearly summer timeseries
+%%     Figure 5 pco2 from all sources in Kitikmeot as yearly summer timeseries
 h8000=figure(8000)
 set(gcf, 'Position', get(0, 'Screensize'));
-subtightplot(1,3,1,[0.015 0.015],[0.15 0.05],[0.05 0.05])
+subtightplot(1,3,1,[0.05 0.05],[0.15 0.05],[0.08 0.02])
 set(gcf,'color','w');
 plot(Island_tmaster(1:12000),Island_pco2_smoothed(1:12000),'k');
 hold on
@@ -3122,21 +3122,24 @@ ylim([200 550])
 klp=datenum(2016,05,01,0,0,1);
 jkl=datenum(2016,11,01,0,0,1);
 xlim([klp jkl])
-[l1,icons]=legend('EC tower derived','ONC mooring','Bergmann','Location','NorthWest')
-set(l1,'fontsize',14)
+[l1,icons] =legend('EC tower derived','ONC mooring','Bergmann','Location','SouthWest')
+set(findobj(icons,'-property','fontSize'),'fontSize',20)
+set(l1,'fontSize',20);
 icons=findobj(icons,'Type','line');
+set(icons,'MarkerSize',20);
 icons=findobj(icons,'Marker','none','-xor');
-set(icons,'MarkerSize',8);
+set(icons,'MarkerSize',20);
+
 ylabel('pCO_2 (ppm)')
 xlabel('Time');
-title('2016','fontsize',20)
+title('2016','fontsize',28)
 set(gca, 'XTick', [datenum(2016,05,01,0,0,1),datenum(2016,06,01,0,0,1),datenum(2016,07,01,0,0,1),datenum(2016,08,01,0,0,1),datenum(2016,09,01,0,0,1),datenum(2016,10,01,0,0,1),datenum(2016,11,01,0,0,1)])
 rotateXLabels( gca(), 90 )
 datetick('x','mmm', 'keepticks') 
-set(gca,'FontSize',16)
-set(gca,'FontSize',16)
+set(gca,'FontSize',20)
+set(gca,'FontSize',20)
 
-subtightplot(1,3,2,[0.015 0.015],[0.15 0.05],[0.05 0.05])
+subtightplot(1,3,2,[0.05 0.05],[0.15 0.05],[0.08 0.02])
 plot(Island_tmaster(1:12000),Island_pco2_smoothed(1:12000),'k');
 hold on
 h8000=plot(Island_tmaster(25480:34000),Island_pco2_smoothed(25480:34000),'k');
@@ -3152,21 +3155,21 @@ ylim([200 550])
 klp=datenum(2017,05,01,0,0,1);
 jkl=datenum(2017,11,01,0,0,1);
 xlim([klp jkl])
-[l1,icons]=legend('EC tower derived','ONC mooring','Bergmann','Location','NorthWest')
-set(l1,'fontsize',14)
-icons=findobj(icons,'Type','line');
-icons=findobj(icons,'Marker','none','-xor');
-set(icons,'MarkerSize',8);
+% [l1,icons]=legend('EC tower derived','ONC mooring','Bergmann','Location','NorthWest')
+% set(l1,'fontsize',18)
+% icons=findobj(icons,'Type','line');
+% icons=findobj(icons,'Marker','none','-xor');
+% set(icons,'MarkerSize',8);
 xlabel('Time');
-title('2017','fontsize',20)
+title('2017','fontsize',28)
 set(gca, 'XTick', [datenum(2017,05,01,0,0,1),datenum(2017,06,01,0,0,1),datenum(2017,07,01,0,0,1),datenum(2017,08,01,0,0,1),datenum(2017,09,01,0,0,1),datenum(2017,10,01,0,0,1),datenum(2017,11,01,0,0,1)])
 rotateXLabels( gca(), 90 )
 datetick('x','mmm', 'keepticks') 
-set(gca,'YTick',[])
-set(gca,'FontSize',16)
-set(gca,'FontSize',16)
+%set(gca,'YTick',[])
+set(gca,'FontSize',20)
+set(gca,'FontSize',20)
 
-subtightplot(1,3,3,[0.015 0.015],[0.15 0.05],[0.05 0.05])
+subtightplot(1,3,3,[0.05 0.05],[0.15 0.05],[0.08 0.02])
 plot(Island_tmaster(1:12000),Island_pco2_smoothed(1:12000),'k');
 hold on
 h8000=plot(Island_tmaster(25480:34000),Island_pco2_smoothed(25480:34000),'k');
@@ -3179,21 +3182,22 @@ h8000b.Annotation.LegendInformation.IconDisplayStyle = 'off';
 plot(Berg18_co2_dt,Berg18_co2_pco2_surface,'o','color',colour_lightblue,'MarkerFaceColor',colour_lightblue,'Markersize',1.5);
 dynamicDateTicks([], [], 'dd/mm');
 ylim([200 550])
-title('2018','fontsize',20)
+title('2018','fontsize',28)
 klp=datenum(2018,05,01,0,0,1);
 jkl=datenum(2018,11,01,0,0,1);
 xlim([klp jkl])
-[l1,icons]=legend('EC tower derived','ONC mooring','Bergmann','Location','NorthWest')
-set(l1,'fontsize',14)
-icons=findobj(icons,'Type','line');
-icons=findobj(icons,'Marker','none','-xor');
-set(icons,'MarkerSize',8);xlabel('Time');
+xlabel('Time');
+% [l1,icons]=legend('EC tower derived','ONC mooring','Bergmann','Location','NorthEast')
+% set(l1,'fontsize',18)
+% icons=findobj(icons,'Type','line');
+% icons=findobj(icons,'Marker','none','-xor');
+% set(icons,'MarkerSize',8);xlabel('Time');
 set(gca, 'XTick', [datenum(2018,05,01,0,0,1),datenum(2018,06,01,0,0,1),datenum(2018,07,01,0,0,1),datenum(2018,08,01,0,0,1),datenum(2018,09,01,0,0,1),datenum(2018,10,01,0,0,1),datenum(2018,11,01,0,0,1)])
 rotateXLabels( gca(), 90 )
 datetick('x','mmm', 'keepticks') 
-set(gca,'YTick',[])
-set(gca,'FontSize',16)
-set(gca,'FontSize',16)
+%set(gca,'YTick',[])
+set(gca,'FontSize',20)
+set(gca,'FontSize',20)
 saveas(h8000,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figure6_Timeseries_pco2_kitikmeot.jpg')
 %%     pco2 from all sources in Kitikmeot as yearly summer timeseries
 % h8000=figure(8000)
@@ -3512,14 +3516,14 @@ ylabel('co2')
 colorbar
 caxis([0 1])
 % saveas(h105,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Berg_co2_vs_SST_chl.jpg')
-%%     Figure 7 Inside vs outside bay plot
+%%     Figure 6 Inside vs outside bay plot
 h1337=figure(1337)
 m_proj('Sinusoidal','lon',[-105.35 -104.75],'lat',[69 69.12]);  
-m_grid('linestyle','none','tickdir','out','fontsize',14)
+m_grid('linestyle','none','tickdir','out','fontsize',20)
 hold on
 %add data
-set(gca,'FontSize',12)
-set(gca,'FontSize',12)
+set(gca,'FontSize',20)
+set(gca,'FontSize',20)
 m_gshhs_f('patch',[.5 .5 .5]);
 m_scatter(Berg16_co2_Longitude,Berg16_co2_Latitude,2,Berg16_co2_pco2_surface*0,'filled')
 m_scatter(Berg17_co2_Longitude,Berg17_co2_Latitude,2,Berg17_co2_pco2_surface*0,'filled')
@@ -3538,11 +3542,11 @@ m_line([-105.12 -105.08],[69.055 69.055],'color','b','linewidth',3);
 m_line([-105.12 -105.12],[69.035 69.055],'color','b','linewidth',3);
 m_line([-105.08 -105.08],[69.035 69.055],'color','b','linewidth',3);
 m_ruler([.6 .9],.1,3,'fontsize',16,'color','w');
-set(frog,'XColor','w');
-y=ylabel('Latitude','Fontsize',16);
+
+y=ylabel(['Latitude (',num2str(degree_symbol),'N)'],'Fontsize',24);
 set(y,'Units','Normalized','Position',[-0.055,0.5,0]);
-x=xlabel('Longitude','Fontsize',16);
-set(x,'Units','Normalized','Position',[0.5,-0.05,0]); 
+x=xlabel(['Longitude(',num2str(degree_symbol),'W)'],'Fontsize',24);
+set(x,'Units','Normalized','Position',[0.5,-0.07,0]); 
 saveas(h1337,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Cambay_invsout.jpg')
 %%     Figure S1 Plots of temperature corrections
 load ('2018_temp_cal.mat')
@@ -3582,37 +3586,120 @@ text(4,9,'y= 1.1875x -3.30','fontsize',14);
 text(4,8,(['RMSD= 0.64' degree_symbol 'C']),'fontsize',14);
 
 saveas(h56,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Temp_regressions.jpg')
+%% find pCO2 within 1km of the island
+
+%2017
+for subset=1:length(Berg17_co2_Latitude);
+    dist(subset) = pos2dist(68.984157,-105.834386,Berg17_co2_Latitude(subset),Berg17_co2_Longitude(subset),2);
+end
+
+[~ ,xb]=find(dist<1); %only get ones <1km 
+
+%two time periods 
+%1163- 1420 = here for 5 hours!
+datevec(Berg17_co2_dt(1163))
+datevec(Berg17_co2_dt(1420))
+
+%15961-16064 - here ofr 1.5 hours
+datevec(Berg17_co2_dt(15961))
+datevec(Berg17_co2_dt(16064))
+
+mean(Berg17_co2_fco2_surface(1163:1420))
+
+[~, oa]=find(Island_tmaster>Berg17_co2_dt(1163) & Island_tmaster<Berg17_co2_dt(1420))
+nanmean(Island_pco2(oa))
+
+%difference is 414.67- 344.2138
+
+mean(Berg17_co2_fco2_surface(15961:16064))
+[~, ob]=find(Island_tmaster>Berg17_co2_dt(15961) & Island_tmaster<Berg17_co2_dt(16064))
+nanmean(Island_pco2(ob))
+%no data!
+
+%2018 
+for subset=1:length(Berg18_co2_Latitude);
+    dist2018(subset) = pos2dist(68.984157,-105.834386,Berg18_co2_Latitude(subset),Berg18_co2_Longitude(subset),2);
+end
+
+[~ ,xc]=find(dist2018<1); %only get ones <1km 
+
+%two time periods 
+
+%436-474
+datevec(Berg18_co2_dt(436))
+datevec(Berg18_co2_dt(474))
+
+mean(Berg18_co2_fco2_surface(436:474))
+
+[~, oa]=find(Island_tmaster>Berg18_co2_dt(436) & Island_tmaster<Berg18_co2_dt(474))
+nanmean(Island_pco2(oa))
+
+%408.6925-237.4071
+
+%4501- 4640 = here for 2 hours!
+datevec(Berg18_co2_dt(4501))
+datevec(Berg18_co2_dt(4640))
+
+mean(Berg18_co2_fco2_surface(4501:4640))
+
+[~, oa]=find(Island_tmaster>Berg18_co2_dt(4501) & Island_tmaster<Berg18_co2_dt(4640))
+nanmean(Island_pco2(oa))
+
+% no measurements at tower nan!
+%% find pCO2 within 0.5km km of the ONC
+
+
+for subset=1:length(Berg16_co2_Latitude);
+    dist(subset) = pos2dist(69.113548,-105.062700,Berg16_co2_Latitude(subset),Berg16_co2_Longitude(subset),2);
+end
+
+[~ ,xb]=find(dist<0.5); %only get ones <1km 
+
+%4 periods of overlap
+
+datevec(Berg16_co2_dt(2192))
+datevec(Berg16_co2_dt(2493))
+mean(Berg16_co2_fco2_surface(2192:2493))
+
+[~, oa]=find(ONC_16_dt>Berg16_co2_dt(2192) & ONC_16_dt<Berg16_co2_dt(2493))
+nanmean(ONC_16_pCO2(oa))
+
+%no measurements
 
 
 
+datevec(Berg16_co2_dt(3758))
+datevec(Berg16_co2_dt(4292))
+mean(Berg16_co2_fco2_surface(3758:4292))
 
+[~, oa]=find(ONC_16_dt>Berg16_co2_dt(3758) & ONC_16_dt<Berg16_co2_dt(4292))
+nanmean(ONC_16_pCO2(oa))
 
+%no measurements
 
+datevec(Berg16_co2_dt(4701))
+datevec(Berg16_co2_dt(5012))
+mean(Berg16_co2_fco2_surface(4701:5012))
 
+[~, oa]=find(ONC_15_dt>Berg16_co2_dt(4701) & ONC_15_dt<Berg16_co2_dt(5012))
+nanmean(ONC_15_pCO2(oa))
 
+%no measurements
 
+datevec(Berg16_co2_dt(5132))
+datevec(Berg16_co2_dt(5521))
+mean(Berg16_co2_fco2_surface(5132:5521))
 
+[~, oa]=find(ONC_15_dt>Berg16_co2_dt(5132) & ONC_15_dt<Berg16_co2_dt(5521))
+nanmean(ONC_15_pCO2(oa))
 
+%no measurements
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%FIND PCO2 when mooring was in and out of the water 
+%ONC ON 253/254
+x=datevec(ONC_15_dt);
+ONC_15_pCO2(253)
+ONC_15_pCO2(254)
 
 
 
