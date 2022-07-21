@@ -537,6 +537,9 @@ vec3 = round(flux_min_2019,2);
 vec4 = round(flux_max_2019,2);
 tmp = [num2cell(vec1)';num2cell(vec2)';num2cell(vec3)';num2cell(vec4)'];
 flux_mean_std_min_max_2019 = sprintf('%0.2f ± %0.2f \n %0.2f — %0.2f \n \n',[tmp{:}])
+%%     Average flux all years
+
+Average_flux=nanmean([Berg16_co2_FCO2_mmol_per_m2_per_d;Berg17_co2_FCO2_mmol_per_m2_per_d;Berg18_co2_FCO2_mmol_per_m2_per_d;Berg19_co2_FCO2_mmol_per_m2_per_d]);
 %%     Inside vs outside the Bay analysis
 
 %Inside the Bay
@@ -750,7 +753,8 @@ x=xlabel(['Longitude (' degree_symbol 'W)']);
 set(gca,'fontsize',22)
 set(x,'Units','Normalized','Position',[0.5,-0.13,0]);
 
-export_fig('jpg','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Kitikmeot map')
+export_fig('jpg','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure1_Kitikmeot_map.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure1_Kitikmeot_map.eps'); 
 %%     Misc exploratory plots
 
 %plot timseries of temperature
@@ -1866,7 +1870,7 @@ plot(Berg16_co2_dt,Berg16_co2_atmCO2,'k*','MarkerSize',0.5)
 set(gca, 'XTick', [])
 ylim([190 600])
 xlim([datenum([2016 08 2 14 13 00]) datenum([2016 08 11 00 00 00])])
-ylabel({['pCO_2 ' char(10) '(ppm)']},'fontsize',11); 
+ylabel({['pCO_2 ' char(10) '(',num2str(micro_symbol),'atm)']},'fontsize',11); 
 set(gca,'fontsize',11)
 set(gca,'fontsize',11)
 text(-0.63,1.1,'(d)','color','k','Fontsize',16,'Fontweight','bold','BackgroundColor','none','units','normalized'); 
@@ -2166,9 +2170,8 @@ xlim([datenum([2019 08 9 18 21 00]) datenum([2019 08 21 03 44 00])])
 set(gca,'fontsize',11)
 box on;
 
-
-
-saveas(h9,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figure4_Berg_timeseries_all_inc_map.jpg')
+saveas(h9,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure4_Berg_timeseries_all_inc_map.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure4_Berg_timeseries_all_inc_map.eps'); 
 %%     Figure 3 - map of 2016 to 2019 cruise tracks
 h3= figure('Position', get(0, 'Screensize'));
 m_proj('Sinusoidal','lon',[-110 -95],'lat',[66.5 69.5]);  
@@ -2198,7 +2201,8 @@ set(x,'Units','Normalized','Position',[0.5,-0.13,0]);
 x=xlabel(['Longitude (' degree_symbol 'W)']);
 set(x,'Units','Normalized','Position',[0.5,-0.075,0]);
 legend([h11,h12,h13,h14],'2016','2017','2018','2019','Location','SouthEast');
-saveas(h3,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figure3_Berg_cruisetrack_map.jpg')
+saveas(h3,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure3_Berg_cruisetrack_map.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure3_Berg_cruisetrack_map.eps'); 
 %%     Figure S2 - map subplots of datetime for 2016 to 2019 cruises
 h1001= figure('Position', get(0, 'Screensize'));
 subtightplot(2,2,1,[],[],[0.05 0.07])
@@ -2302,6 +2306,7 @@ set(x,'Units','Normalized','Position',[0.5,-0.12,0]);
 text(-0.06,1.03,'(d)','color','k','Fontsize',16,'Fontweight','bold','BackgroundColor','none','units','normalized'); 
 
 saveas(h1001,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/FigureS2_Berg_dt_map.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2020 - Calgary postdoc - Araleigh ice core/Figure1_Kitikmeot_map.eps'); 
 %%     Figure S3 - map subplots of SST for 2016 to 2019 cruises 
 h1003 = figure('Position', get(0, 'Screensize'));
 subtightplot(2,2,1,[],[],[0.05 0.07])
@@ -2320,7 +2325,7 @@ title(y,['Temperature(',num2str(degree_symbol),'C)'],'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2016','fontsize',16)
-caxis([0 22])
+%caxis([0 22])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2343,7 +2348,7 @@ title(y,['Temperature(',num2str(degree_symbol),'C)'],'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2017','fontsize',16)
-caxis([0 22])
+%caxis([0 22])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2366,7 +2371,7 @@ title(y,['Temperature(',num2str(degree_symbol),'C)'],'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2018','fontsize',16)
-caxis([0 22])
+%caxis([0 22])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2389,7 +2394,7 @@ title(y,['Temperature(',num2str(degree_symbol),'C)'],'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2019','fontsize',16)
-caxis([0 22])
+%caxis([0 22])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2415,7 +2420,7 @@ title(y,'Salinity (PSU)','fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2016','Fontsize',16)
-caxis([12 29])
+%caxis([12 29])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2438,7 +2443,7 @@ title(y,'Salinity (PSU)','fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2017','Fontsize',16)
-caxis([12 29])
+%caxis([12 29])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2461,7 +2466,7 @@ title(y,'Salinity (PSU)','fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2018','Fontsize',16)
-caxis([12 29])
+%caxis([12 29])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2484,7 +2489,7 @@ title(y,'Salinity (PSU)','fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 m_gshhs('fr');              % full resolution rivers
 title('2019','Fontsize',16)
-caxis([12 29])
+%caxis([12 29])
 y=ylabel('Latitude','Fontsize',16);
 set(y,'Units','Normalized','Position',[-0.07,0.5,0]);
 x=xlabel('Longitude','Fontsize',16);
@@ -2611,10 +2616,10 @@ set(gca,'FontSize',12)
 set(gca,'FontSize',12)
 m_scatter(Berg17_co2_Longitude,Berg17_co2_Latitude,2,Berg17_co2_Chl_despike,'filled')
 y=colorbar;
-title(y,'chlorophyll','fontsize',16);
+title(y,{['Fluorescence' char(10),'(' , num2str(micro_symbol),'g L^{-1})']},'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 title('2017')
-caxis([0 1.3])
+%caxis([0 1.3])
 
 subtightplot(2,2,3,[],[],[0.05 0.07])
 myColorOrder=inferno;
@@ -2628,10 +2633,10 @@ set(gca,'FontSize',12)
 set(gca,'FontSize',12)
 m_scatter(Berg18_co2_Longitude,Berg18_co2_Latitude,2,Berg18_co2_Chl_despike,'filled')
 y=colorbar;
-title(y,'chlorophyll','fontsize',16);
+title(y,{['Fluorescence' char(10),'(' , num2str(micro_symbol),'g L^{-1})']},'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 title('2018')
-caxis([0 1.3])
+%caxis([0 1.3])
 
 subtightplot(2,2,4,[],[],[0.095 0.025])
 myColorOrder=inferno;
@@ -2645,10 +2650,10 @@ set(gca,'FontSize',12)
 set(gca,'FontSize',12)
 m_scatter(Berg19_co2_Longitude,Berg19_co2_Latitude,2,Berg19_co2_Chl_despike,'filled')
 y=colorbar;
-title(y,'chlorophyll','fontsize',16);
+title(y,{['Fluorescence' char(10),'(' , num2str(micro_symbol),'g L^{-1})']},'fontsize',16);
 m_gshhs_f('patch',[.5 .5 .5]);
 title('2019')
-caxis([0 1.3])
+%caxis([0 1.3])
 saveas(h1004,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/FigureS5_Berg_chl_map.jpg')
 %%     map of pCO2 around finlayson islands
 figure(7001)
@@ -2810,7 +2815,7 @@ y=(-0.57*x.^2)+(14.43*x)+286;
 p=plot(x,y,'k');
 p(1).LineWidth = 1.5;
 % xlabel('Weeks since ice breakup (when sea ice <85%)','fontsize',14);
-ylabel({['pCO_2 (ppm)']},'fontsize',12); 
+ylabel({['pCO_2 ' char(10) '(',num2str(micro_symbol),'atm)']},'fontsize',12); 
 xlim([2 16]);
 ylim([180 550]);
 set(gca,'FontSize',12);
@@ -2854,7 +2859,8 @@ ylim([10 30]);
 set(gca,'FontSize',12)
 set(gca,'FontSize',12)
 legend('Bergmann 2016','Bergmann 2017','Bergmann 2018','Bergmann 2019','Ahmed19 fit','Location','EastOutside');
-saveas(h900,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figure5_Berg_ice_breakup.jpg')
+saveas(h900,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure7_Berg_ice_breakup.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure7_Berg_ice_breakup.eps'); 
 %%     pco2 as a function of icebreakup coloured by region
 h901=figure(901)
 set(gcf, 'Position', get(0, 'Screensize'));
@@ -3130,7 +3136,7 @@ set(icons,'MarkerSize',20);
 icons=findobj(icons,'Marker','none','-xor');
 set(icons,'MarkerSize',20);
 
-ylabel('pCO_2 (ppm)')
+ylabel({['pCO_2 (',num2str(micro_symbol),'atm)']}); 
 xlabel('Time');
 title('2016','fontsize',28)
 set(gca, 'XTick', [datenum(2016,05,01,0,0,1),datenum(2016,06,01,0,0,1),datenum(2016,07,01,0,0,1),datenum(2016,08,01,0,0,1),datenum(2016,09,01,0,0,1),datenum(2016,10,01,0,0,1),datenum(2016,11,01,0,0,1)])
@@ -3198,7 +3204,8 @@ datetick('x','mmm', 'keepticks')
 %set(gca,'YTick',[])
 set(gca,'FontSize',20)
 set(gca,'FontSize',20)
-saveas(h8000,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figure6_Timeseries_pco2_kitikmeot.jpg')
+saveas(h8000,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure5_Timeseries_pco2_kitikmeot.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure5_Timeseries_pco2_kitikmeot.eps'); 
 %%     pco2 from all sources in Kitikmeot as yearly summer timeseries
 % h8000=figure(8000)
 % set(gcf, 'Position', get(0, 'Screensize'));
@@ -3518,6 +3525,7 @@ caxis([0 1])
 % saveas(h105,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Berg_co2_vs_SST_chl.jpg')
 %%     Figure 6 Inside vs outside bay plot
 h1337=figure(1337)
+set(gcf, 'Position', get(0, 'Screensize'));
 m_proj('Sinusoidal','lon',[-105.35 -104.75],'lat',[69 69.12]);  
 m_grid('linestyle','none','tickdir','out','fontsize',20)
 hold on
@@ -3547,7 +3555,8 @@ y=ylabel(['Latitude (',num2str(degree_symbol),'N)'],'Fontsize',24);
 set(y,'Units','Normalized','Position',[-0.055,0.5,0]);
 x=xlabel(['Longitude(',num2str(degree_symbol),'W)'],'Fontsize',24);
 set(x,'Units','Normalized','Position',[0.5,-0.07,0]); 
-saveas(h1337,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Cambay_invsout.jpg')
+saveas(h1337,'C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure6_Cambay_invsout.jpg')
+export_fig('eps','C:\Users\rps207\Documents\Research Papers, Books, Thesises, Course and Lecture Notes\My Papers\2021 - Calgary postdoc - Bergmann summer pCO2/Figures/Figure6_Cambay_invsout.eps'); 
 %%     Figure S1 Plots of temperature corrections
 load ('2018_temp_cal.mat')
 load ('2017_temp_cal.mat')
