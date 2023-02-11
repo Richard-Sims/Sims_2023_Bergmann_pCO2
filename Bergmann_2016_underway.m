@@ -18,7 +18,7 @@ path_tsg=[];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%pco2 files
+%% pco2 files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %loop through underway files 
@@ -199,7 +199,7 @@ clear h20_abs IO3 IO4 IO5 Time_cell Time_char Time_char2 H20_abs Jan1_serial DOY
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%eco not logging to pco2 file-import seperately , loop through underway files and 
+%% eco not logging to pco2 file-import seperately , loop through underway files and 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 cd(path_eco); %change current directory to folder with files want to load
@@ -327,7 +327,7 @@ clearvars Scatter_ECO ia Flour_ECO Eco_time Eco_date Dt_ECO Chl_ECO C fname_char
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
-%Import CR3000 to get Lat/Long and insitu sea temp and skin temp
+%% Import CR3000 to get Lat/Long and insitu sea temp and skin temp
 %%%%%%%%%%%%%%%%%%%%%%%
 
 %CR300 was logging as two seperate files at start of the cruise before
@@ -622,7 +622,7 @@ save('2016_und.mat')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%FURTHER QC, CALIBRATIONS AND CORRECTIONS
+%% FURTHER QC, CALIBRATIONS AND CORRECTIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Code to do corrections and calculate fluxes
@@ -808,8 +808,7 @@ ind_co2_samp3_end=ind_co2_samp3_end(b);
 
 
 
-%now remove the standards when the system is being flushed and atmospheric
-%CO2
+%now remove the standards when the system is being flushed and atmospheric CO2
 CO2_ppm(ind_co2_atm)=nan;
 CO2_ppm(ind_co2_samp1_flush)=nan;
 CO2_ppm(ind_co2_samp2_flush)=nan;
@@ -882,8 +881,11 @@ end
 dynamicDateTicks([], [], ' mm/dd');
 
 
-%super co2 records as pCO2 but we want xco2 for water vapour correction
-Berg16_co2_CO2umm=CO2_ppm./(Cell_p*0.00986923);
+Berg16_co2_CO2umm=CO2_ppm;
+
+%Note that this was incorrect. The systemn is recording xCO2 thus why it is given in ppm
+% %super co2 records as pCO2 but we want xco2 for water vapour correction
+% Berg16_co2_CO2umm=CO2_ppm./(Cell_p*0.00986923);
 
 Berg16_co2_dt=Dt;
 
@@ -965,7 +967,7 @@ clearvars tempbackind tmp2 tmp tempoutind temp_cutoutend temp_cutoutsrt b calend
 %cross correlate temp from CTD 
 %load in Bergmann matlab CTD structure 
     
-load('C:\Users\rps207\Documents\MATLAB\2019 - Bergmann carbonate transects 2016-2019/Bergmann.mat','Berg')
+load('C:\Users\rps207\Documents\MATLAB\2019 - Bergmann carbonate transects 2016-2019\Processed data/Bergmann.mat','Berg')
 
 CTD_casts_2016=fieldnames(Berg.year_2016); %names of the stations
 
@@ -1153,7 +1155,7 @@ Berg16_co2_Sea_temp=nan(length(Berg16_co2_TSG_t),1);%bad
     osmotic_coef = 0.90799 -0.08992*(0.5*molality) +0.18458*(0.5*molality).^2 -0.07395*(0.5*molality).^3 -0.00221*(0.5*molality).^4;
     vapor_press_kPa = vapor_0sal_kPa .* exp(-0.018 * osmotic_coef .* molality);
     Vapour_pressure_mbar = 10*(vapor_press_kPa);%Convert to mbar
-    Vapour_pressure_atm=0.0098692327 .*Vapour_pressure_mbar;%convert to atm 1 millibar = 0.000986923267 atmosphere
+    Vapour_pressure_atm=0.00098692327 .*Vapour_pressure_mbar;%convert to atm 1 millibar = 0.000986923267 atmosphere
 
 
     %add woolf 16/2019 corrections for skin to salinity and temp
@@ -1166,7 +1168,15 @@ Berg16_co2_Sea_temp=nan(length(Berg16_co2_TSG_t),1);%bad
     Berg16_co2_Pres_atm= Berg16_co2_Pres_mbar *0.000986923; %convert from mb to atm
     Berg16_co2_Pres_pa= Berg16_co2_Pres_mbar *100; %convert from mb to pa
 
-    Berg16_co2_LicorpCO2= Berg16_co2_CO2umm_cal.*(Berg16_co2_Pres_atm - Vapour_pressure_atm);%Correction for water vapour pressure as described in (dickson(2007)-section 8.5.3 TO GET PCO2
+    
+    %now simply multiple calibrated xco2 and pressure
+    Berg16_co2_LicorpCO2= Berg16_co2_CO2umm_cal.*(Berg16_co2_Pres_atm);%
+    
+    %note we are not longer making a water vapour correction here. We had no dryer so assuming 100% humidity.
+    %Berg16_co2_LicorpCO2= Berg16_co2_CO2umm_cal.*(Berg16_co2_Pres_atm - Vapour_pressure_atm);%Correction for water vapour pressure as described in (dickson(2007)-section 8.5.3 TO GET PCO2
+    
+    
+    
     BCO2te= -1636.75 + (12.0408*(Berg16_co2_equtemp_kelvin)) - (3.27957*0.01*(Berg16_co2_equtemp_kelvin).^2) + (3.16528*0.00001*(Berg16_co2_equtemp_kelvin).^3);%units of cm^3 mol^-1 ,determine the two viral coefficents of co2, (Dickson 2007) SOP 24 and p98 section 8.3 use equilibrator_pressure and equilibrator_temperature
     deltaCO2te= 57.7 - 0.118*( Berg16_co2_equtemp_kelvin); %units of cm^3 mol^-1
     R=8.31447; %specific gas constant J/Mol*K

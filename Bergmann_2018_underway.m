@@ -1,8 +1,7 @@
 %work up Bergmann underway data 2018
-clc;  clear all ; close all; %reset workspace
-
-%add directories of functions that maybe needed - probably not required.
-
+%% Reset workspace
+clc;  clear all ; close all; 
+%% Designate - Function paths and directories
 addpath('c:\Users\rps207\Documents\Matlab\Functions');
 addpath('c:\Users\rps207\Documents\Matlab\Functions\Add_Axis');
 addpath('c:\Users\rps207\Documents\Matlab\Functions\cbdate');
@@ -11,23 +10,16 @@ addpath('c:\Users\rps207\Documents\Matlab\Functions\despiking_tooblox');
 addpath('c:\Users\rps207\Documents\Matlab\Functions\cm_and_cb_utilities');
 addpath('c:\Users\rps207\Documents\Matlab\Functions\tsplot');
 set(groot,'DefaultFigureColormap',jet)
-
-%directories of files
+%% Designate - File directories
 mfileDir = 'C:\Users\rps207\Documents\MATLAB\2019 - Bergmann pCO2 2016 -2019\'; %path for main matlab analysis
 path_pco2 = 'C:\Users\rps207\University of Calgary\Brent Else - OneDrive_ElseLab\Data_new_2019\Underway\Bergmann\2018\Raw\SuperCO2\pCO2';%identify file path
 path_eco = 'C:\Users\rps207\University of Calgary\Brent Else - OneDrive_ElseLab\Data_new_2019\Underway\Bergmann\2018\Raw\SuperCO2\ECO';%identify file path
 path_cr300 = 'C:\Users\rps207\University of Calgary\Brent Else - OneDrive_ElseLab\Data_new_2019\Underway\Bergmann\2018\Raw\CR300\BergmannUnderway_all.txt';
-
 path_tsg=[];
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%pco2 files
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%% Load - CO2 files
 %loop through underway files 
 cd(path_pco2); %change current directory to folder with files want to load
 fList = dirPlus(path_pco2);
-
 %select only co2 files
 IndexC = strfind(fList,'desktop.ini'); %necessary to first remove ini file
 Index = find(not(cellfun('isempty',IndexC)));
@@ -35,7 +27,6 @@ fList(Index)=[]; %remove that file
 IndexC = strfind(fList,'pCO2');%find only co2 files
 Index = find(not(cellfun('isempty',IndexC)));
 fList_pco2=fList(Index); 
-
 
 %loop through files and extract identifier from end of files
 Velp=[];
@@ -50,10 +41,8 @@ end
 %sort files by date
 [ ~, p ]=sort(Velp);
 
- Time=[];Date=[];TSG_e=[];Valvepos=[];IO3=[];IO4=[];IO5=[];Pres_v=[];Temp_v=[];Pres_kpa=[];Temp_c=[];
-    Cell_p=[];Cell_t=[];H20_ppt=[];CO2_ppm=[];DOY_utc=[];TSG_s=[];TSG_t=[];Valvepos=[];
-    
-    
+Time=[];Date=[];TSG_e=[];Valvepos=[];IO3=[];IO4=[];IO5=[];Pres_v=[];Temp_v=[];Pres_kpa=[];Temp_c=[];
+Cell_p=[];Cell_t=[];H20_ppt=[];CO2_ppm=[];DOY_utc=[];TSG_s=[];TSG_t=[];Valvepos=[];
 
 for i = p;
 fNamex = char(fList_pco2(i,:));
@@ -87,31 +76,29 @@ tsg_s = dataArray{:, 18};
 %file
 date = dataArray{:, 19};
 time = dataArray{:, 20};
-
 clearvars filename delimiter startRow formatSpec fileID dataArray ans;
 
-    Time=[Time ; time];
-    Date=[Date ; date];
-    TSG_s=[TSG_s ; tsg_s];
-    TSG_t=[TSG_t ; tsg_t];
-    Valvepos=[Valvepos ; valvepos];
-    IO3=[IO3 ; io3];
-    IO5=[IO5 ; io5];
-    IO4=[IO4 ; io4];
-    Pres_v=[Pres_v ; pres_v];
-    Temp_v=[Temp_v ; temp_v];
-    Pres_kpa=[Pres_kpa ; pres_kpa];
-    Temp_c=[Temp_c ; temp_c];
-    Cell_p=[Cell_p ; cell_p];
-    Cell_t=[Cell_t ; cell_t];
-    H20_ppt=[H20_ppt ; h20_ppt];
-    CO2_ppm=[CO2_ppm ; co2_ppm];
-    DOY_utc=[DOY_utc ; doy_utc];
-    
-    clearvars date gps_lon gps_lat tsg_e tsg_s  tsg_t valvepos io3 io5 io4 pres_v temp_v pres_kpa temp_c cell_p cell_t h20_ppt co2_ppm doy_utc];
-    
-end
+Time=[Time ; time];
+Date=[Date ; date];
+TSG_s=[TSG_s ; tsg_s];
+TSG_t=[TSG_t ; tsg_t];
+Valvepos=[Valvepos ; valvepos];
+IO3=[IO3 ; io3];
+IO5=[IO5 ; io5];
+IO4=[IO4 ; io4];
+Pres_v=[Pres_v ; pres_v];
+Temp_v=[Temp_v ; temp_v];
+Pres_kpa=[Pres_kpa ; pres_kpa];
+Temp_c=[Temp_c ; temp_c];
+Cell_p=[Cell_p ; cell_p];
+Cell_t=[Cell_t ; cell_t];
+H20_ppt=[H20_ppt ; h20_ppt];
+CO2_ppm=[CO2_ppm ; co2_ppm];
+DOY_utc=[DOY_utc ; doy_utc];
 
+clearvars date gps_lon gps_lat tsg_e tsg_s  tsg_t valvepos io3 io5 io4 pres_v temp_v pres_kpa temp_c cell_p cell_t h20_ppt co2_ppm doy_utc];
+
+end
 
 %DATA CONVERSIONS and QC
 
@@ -138,31 +125,29 @@ end
 [row20, ~] = find(isnan(CO2_ppm));
 [row21, ~] = find(isnan(DOY_utc));
 
-
 %concatenate nan rows for all variables
 nanrows=[row1;row2;row3;row6;row8;row9;row10;row11;row12;row13;row14;row15;row16;row17;row18;row19;row20;row21];
 nanrowsunq=unique(nanrows); %find only unique rows - note this is only 265 rows of 13831
 clearvars nanrows row1 row2 row3 row4 row5 row6 row7 row8 row9 row10 row11 row12 row13 row14 row15 row16 row17 row18 row19 row20 row21
 
-
 %remove these rows from data
-    Time(nanrowsunq)=[];
-    Date(nanrowsunq)=[];
-    TSG_s(nanrowsunq)=[];
-    TSG_t(nanrowsunq)=[];
-    Valvepos(nanrowsunq)=[];
-    IO3(nanrowsunq)=[];
-    IO5(nanrowsunq)=[];
-    IO4(nanrowsunq)=[];
-    Pres_v(nanrowsunq)=[];
-    Temp_v(nanrowsunq)=[];
-    Pres_kpa(nanrowsunq)=[];
-    Temp_c(nanrowsunq)=[];
-    Cell_p(nanrowsunq)=[];
-    Cell_t(nanrowsunq)=[];
-    H20_ppt(nanrowsunq)=[];
-    CO2_ppm(nanrowsunq)=[];
-    DOY_utc(nanrowsunq)=[];
+Time(nanrowsunq)=[];
+Date(nanrowsunq)=[];
+TSG_s(nanrowsunq)=[];
+TSG_t(nanrowsunq)=[];
+Valvepos(nanrowsunq)=[];
+IO3(nanrowsunq)=[];
+IO5(nanrowsunq)=[];
+IO4(nanrowsunq)=[];
+Pres_v(nanrowsunq)=[];
+Temp_v(nanrowsunq)=[];
+Pres_kpa(nanrowsunq)=[];
+Temp_c(nanrowsunq)=[];
+Cell_p(nanrowsunq)=[];
+Cell_t(nanrowsunq)=[];
+H20_ppt(nanrowsunq)=[];
+CO2_ppm(nanrowsunq)=[];
+DOY_utc(nanrowsunq)=[];
 
 %there are no dashes for time add these for clarity!
 Date_char=num2str(Date); %convert to char for concatination
@@ -199,12 +184,8 @@ Dt=datenum(Dt_Cat,'yyyy/mm/dd HH:MM:SS');
 Jan1_serial = datenum([2018, 1, 1, 0, 0, 0]); %define first day of year
 Dt_doy= Dt - Jan1_serial + 1;%    %convert date to doy (day of year)
 clear IO3 IO4 IO5 Time_cell Time_char Time_char2 H20_abs Jan1_serial DOY_utc H20_abs Dt_Cat Date Time ans A iRow nanrows nanrowsunq B C Date_char fList fList_pco2 cv col row Date_cell Date_cell2 Index IndexC K mA i k o p time x doy_utc fname_cellstr fNamex fname_char fname_cellstr Velp fList_entry_num length_ent co2_abs micro_ pwrV820
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Load - ECO files
 %eco not logging to pco2 file-import seperately , loop through underway files and 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 cd(path_eco); %change current directory to folder with files want to load
 fList = dirPlus(path_eco); 
 iRow=[];
@@ -320,12 +301,8 @@ Chl= interp1(Dt_ECO,Chl_ECO,Dt); %interpolate onto pco2 time
 Flour= interp1(Dt_ECO,Flour_ECO,Dt); %interpolate onto pco2 time
 Scatter= interp1(Dt_ECO,Scatter_ECO,Dt); %interpolate onto pco2 time
 clearvars Scatter_ECO ia Flour_ECO Eco_time Eco_date Dt_ECO Chl_ECO C fname_char path fName fList_entry_num flour fNamex u v Velp w x y z scatter o p  aa ab eco_time eco_doyutc eco_date fList fList_ECO fList_pco2 chl H20_abs i Index IndexC iRow k length_ent
-
-
-%%%%%%%%%%%%%%%%%%%%%%%
-%Import CR3000 to get GPS
-%%%%%%%%%%%%%%%%%%%%%%%
-
+%% Load - CR3000 files
+% need to to get GPS 
 delimiter = ',';
 startRow = 5;
 formatSpec = '%q%q%q%q%q%q%q%q%q%q%q%q%q%q%q%q%[^\n\r]';
@@ -390,7 +367,6 @@ CR3000_PTemp_Avg = cell2mat(rawNumericColumns(:, 11));
 
 CR3000_Dt=datenum(CR3000_TIMESTAMP,'yyyy-mm-dd HH:MM:SS');
 
-
 %CR3000_WaterT_C_Avg for some reason this is coming up as a cell?
 % think it is because nans are NAN rather than NaN
 IndexC = strfind(CR3000_WaterT_C_Avg,'NAN');
@@ -449,7 +425,6 @@ CR3000_Longitude_dec=-1*(lon_deg+lon_min+lon_sec);
 
 [~, unique_index]=unique(CR3000_Dt);
 
-
 CR3000_Dt=CR3000_Dt(unique_index);
 CR3000_H2OFlow_LPM_Avg=CR3000_H2OFlow_LPM_Avg(unique_index);
 CR3000_Latitude_dec=CR3000_Latitude_dec(unique_index);
@@ -492,17 +467,10 @@ Sea_temp= interp1(CR3000_Dt_tempb,CR3000_WaterT_C_Avg,Dt); %interpolate onto pco
 
 clearvars CR3000_TIMESTAMP filename delimiter startRow formatSpec fileID dataArray ans raw col numericData rawData row regexstr result numbers invalidThousandsSeparator thousandsRegExp me rawNumericColumns rawCellColumns R;
 clearvars calarray h20_abs Index Index2 IndexC Std1 Std2 Std3 x y col CR3000_Dt CR3000_Dt_Ph CR3000_H2OFlow_LPM_Avg CR3000_Latitude CR3000_Longitude CR3000_pH_Avg CR3000_pH_temp_Avg CR3000_pH_V_Avg CR3000_WaterT_C_Avg_new dupRows ia ic length_ent nanrowsunq
-
-
 clearvars unique_index unique_index2 unique_index3 CR3000_Latitude_dec CR3000_Longitude_dec lat_deg lat_min lat_sec lon_deg lon_min lon_sec CR3000_Dt_tempa CR3000_Dt_tempb CR3000_PTemp_Avg CR3000_SurfT_C_Avg CR3000_WaterT_C_Avg col nanrows row1 row2 row3 row4 row5 row6 row7 row8 row9 row10 row11 row12 row13 row14 row15 row16 row17 row18 row19 row20 row21
-
+%% Save - raw data
 cd (mfileDir)
 save('2018_und.mat')
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%FURTHER QC, CALIBRATIONS AND CORRECTIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Code to do corrections and calculate fluxes
 n_records=(1:length(Dt))';
@@ -518,10 +486,7 @@ n_records=(1:length(Dt))';
 %this gives the indexes of where a new calibration run starts! as in it has
 %cycled through 3,4,5 then the the next calibration run 3,4,5 starts at index c 
 c=find(diff(ind_co2_samp) ~= 1) + 1;
-
-%diagnostic 
-datevec(Dt(ind_co2_samp(c)))
-
+%% Plot - raw xCO2 data
 figure(1)
 plot(Dt(ind_co2_meas),CO2_ppm(ind_co2_meas),'*');
 hold on
@@ -535,17 +500,15 @@ legend('xco2','atm co2','std1','std2')
 title('FIG 1 - NO QC Berg pCO2 data')
 % this code finds the stanards and can move the first couple of points-
 % this has been replaced by better code below
-
-%also plot temp and salinity for bad data
+%% Plot - Salinity
 figure(11)
 plot(Dt(ind_co2_meas),TSG_s(ind_co2_meas),'*');
 dynamicDateTicks([], [], ' mm/dd');
-
+%% Plot - Temperature
 figure(12)
 plot(Dt(ind_co2_meas),Temp_c(ind_co2_meas),'*');
 dynamicDateTicks([], [], ' mm/dd');
-
-
+%% QC - remove samples after std3
 %Samples after standards - remove first 7 points
 c_meas=find(diff(ind_co2_meas) ~= 1) + 1;
 for i=1:length(c_meas)-1;
@@ -557,8 +520,6 @@ end
 [stdfiltind,~ ]=find(CO2_ppm(ind_co2_samp2)<500);
 std_make_nan=ind_co2_samp2(stdfiltind);
 CO2_ppm(std_make_nan)=nan;
-
-
 
 
 %locate all standards of std2 in a subset of the data
@@ -585,11 +546,7 @@ ind_co2_samp2(t)=[];
 %instrument reading negative values - remove these
 [negind,~ ]=find(CO2_ppm<-100);
 CO2_ppm(negind)=nan;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% REMOVE DATA WITHOUT STANDARDS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%% QC - remove data that can't be calibrated with standards
 %remove junk where there are no calibrations or between system off
 temp_cutoutsrt= datenum('2018-07-31 00:09:00','yyyy-mm-dd HH:MM:SS');
 temp_cutoutend= datenum('2018-07-31 22:10:00','yyyy-mm-dd HH:MM:SS');
@@ -635,7 +592,6 @@ tmp2 = abs(Dt-temp_cutoutend);
 [~, tempbackind] = min(tmp2); %index of closest value
 CO2_ppm(tempoutind:tempbackind)=nan;
 
-
 %remove junk where there are no calibrations or between system off
 temp_cutoutsrt= datenum('2018-08-08 07:17:00','yyyy-mm-dd HH:MM:SS');
 temp_cutoutend= datenum('2018-08-17 11:41:00','yyyy-mm-dd HH:MM:SS');
@@ -653,12 +609,11 @@ tmp = abs(Dt-temp_cutoutsrt);
 tmp2 = abs(Dt-temp_cutoutend);
 [~, tempbackind] = min(tmp2); %index of closest value
 CO2_ppm(tempoutind:tempbackind)=nan;
-
 clearvars tempbackind tmp2 tmp tempoutind temp_cutoutend temp_cutoutsrt
-
+%% QC - remove CO2 outliers
 %manually pick out indexes of  pco2 to remove that are clear outliers
 CO2_ppm(ind_co2_meas([2845:2849 4789:4795 4987:4999 5948:5952 6630 7604 8567 8643 8709 8719 8760 9341:9345 10987:11000 12418:12423 13711:13716 14126:14127]))=nan;
-
+%% Plot - raw xCO2 with standard gas endpoints
 figure(2)
 plot(Dt(ind_co2_meas),CO2_ppm(ind_co2_meas),'*');
 hold on
@@ -670,7 +625,7 @@ plot(Dt(ind_co2_samp2),CO2_ppm(ind_co2_samp2),'rs');
 dynamicDateTicks([], [], ' mm/dd');
 legend('xco2','atm co2','std1','std2')
 title('FIGURE 2 - OUTLIERS QC Berg pCO2 data')
-
+%% QC - remove bad standards
 %now remove the standards when the system is being flushed and atmospheric
 %CO2
 CO2_ppm(ind_co2_atm)=nan;
@@ -686,7 +641,7 @@ CO2_ppm(14946)=579.15;
 %ignore the nans otehrwise this ruins the calibration!
 b=~(isnan(CO2_ppm(ind_co2_samp2_end)));
 ind_co2_samp2_end=ind_co2_samp2_end(b);
-
+%% Plot - raw xCO2 data with standards labelled
 figure(3)
 plot(Dt(ind_co2_meas),CO2_ppm(ind_co2_meas),'*');
 hold on
@@ -695,16 +650,12 @@ plot(Dt(ind_co2_samp2_end),CO2_ppm(ind_co2_samp2_end),'ms');
 dynamicDateTicks([], [], ' mm/dd');
 legend('xco2','std2')
 title('FIGURE 3 - OUTLIERS QC + final standard point only Berg pCO2 data')
-
 for labelcat=1:length(ind_co2_samp2_end);
 labelpoints(Dt(ind_co2_samp2_end(labelcat)),CO2_ppm(ind_co2_samp2_end(labelcat)),([num2str((labelcat),'%10.1f')]),'color','b','Fontsize',5,'Fontweight','bold','BackgroundColor','none')
 end
-
 dynamicDateTicks([], [], ' mm/dd');
-
-
-%super co2 records as pCO2 but we want xco2 for water vapour correction
-Berg18_co2_CO2umm=CO2_ppm./(Cell_p*0.00986923);
+%% main loop to do the calibrations here
+Berg18_co2_CO2umm=CO2_ppm;
 Berg18_co2_dt=Dt;
 
 % main loop to do the calibrations here
@@ -730,8 +681,7 @@ Berg18_co2_dt=Dt;
     Berg18_co2_CO2umm_cal=Berg18_co2_CO2umm_cal';
     %pad out the end of the matrix with NaN where there wasn't a standard at the end
     Berg18_co2_CO2umm_cal(14936:14947)=NaN;
-
-    
+ %% Plot - calibrated xCO2 and standards   
 figure(4)
 plot(Berg18_co2_dt(ind_co2_meas),Berg18_co2_CO2umm(ind_co2_meas),'bo');
 hold on
@@ -740,28 +690,22 @@ plot(Berg18_co2_dt(ind_co2_meas),Berg18_co2_CO2umm_cal(ind_co2_meas),'ko');
 legend('xco2' ,'std1', 'std2', 'xco2cal')
 title('FIGURE 4 - QC plus standard calibration - Berg pCO2 data')
 dynamicDateTicks([], [], ' mm/dd');
-
+%% QC - remove calibrations from the co2 matrix
 %remove calibrations from the co2 matrix
 Berg18_co2_CO2umm_cal(ind_co2_atm)=NaN;
 Berg18_co2_CO2umm_cal(ind_co2_samp1)=NaN;
 Berg18_co2_CO2umm_cal(ind_co2_samp2)=NaN;
 Berg18_co2_CO2umm_cal(ind_co2_samp2_end)=NaN;
-
+%% QC - outliers at beggining where pressure is 0
 %outliers at beggining where pressure is 0!!
 Berg18_co2_CO2umm_cal(1:4)=nan;
-
+%% Plot - calibrated xCO2 
 %final xCO2 data
 figure(41)
 plot(Berg18_co2_dt,Berg18_co2_CO2umm_cal,'ko');
-
-
-
-
-%cross correlate temp from CTD 
-%load in Bergmann matlab CTD structure 
-
-load('C:\Users\rps207\Documents\MATLAB\2019 - Bergmann carbonate transects 2016-2019/Bergmann.mat','Berg')
-
+%% Load - Bergmann  CTD data to cross correlate temp from CTD 
+load('C:\Users\rps207\Documents\MATLAB\2019 - Bergmann carbonate transects 2016-2019/Processed data/Bergmann.mat','Berg')
+%% Correlate - equilibrator temp and CTD temp 
 CTD_casts_2018=fieldnames(Berg.year_2018); %names of the stations
 CTD_casts_2018=CTD_casts_2018(1:end-3); %R1,G2,G4 bad or not completed casts!
 
@@ -827,12 +771,10 @@ temp_corrected=(temp_matchup(l)*c(1))+c(2);
 C1 = sqrt(mean(((temp_corrected- CTD_TEMP_1m(l)).^2))) %RMSE =     0.64
 %exp(0.0423*0.64)=1.0209 - 2.09% difference
 
-
-
 save4plot_equ2018=temp_matchup(l);
 save4plot_ros2018=CTD_TEMP_1m(l);
 save('2018_temp_cal.mat','save4plot_equ2018','save4plot_ros2018');
- 
+%% Plot - equilibrator temp and CTD temp 
 figure(5)
 plot(CTD_TEMP_0_5m,temp_matchup,'k*')
 hold on
@@ -859,12 +801,11 @@ xlim([0 12])
 ylim([0 12])
 legend('Location','SouthEast','temp 0.5m','temp 1m','temp 1.5m','temp 2m','1:1 line');
 title('ctd depths vs equ temp')
-
-
+%% Correlate - underway salinity vs CTD salinity 
  l=~(isnan(CTD_SAL_0_5m));
  l(19)=l(20);% this is an outlier
  e = polyfit(sal_matchup(l),CTD_SAL_0_5m(l),1);
- 
+ %% Plot - underway salinity vs CTD salinity 
 %no salinity corrected required
 figure(6)
 k=~(isnan(CTD_SAL_0_5m));
@@ -882,7 +823,7 @@ ylabel('underway sal');
 xlim([25 30]);
 ylim([25 30]);
 legend('Location','SouthEast','sal 0.5m','sal 1m','sal 1.5m','sal 2m','1:1 line');
-
+%% Plot - temperature
 figure(7)
 plot(TSG_t,'k*')
 hold on
@@ -893,11 +834,9 @@ ylabel('Temp')
 xlabel('Measurement number')
 % plot(Sea_temp,'g*')
 % plot(Skin_temp,'y*')
-
-
+%% QC - remove NaNs
 %where co2 is nan make the other variables nan
 b=(isnan(Berg18_co2_CO2umm_cal));
-
 Temp_c(b)=nan;
 Longitude(b)=nan;
 Latitude(b)=nan;
@@ -916,8 +855,7 @@ ph_avg(b)=nan;
 pcr300_temp(b)=nan;
 Skin_temp(b)=nan;
 Sea_temp(b)=nan;
-
-
+%% Designate - output variables to save
 % This is corrected SST from equilibrator temp.
 Berg18_co2_equtemp=Temp_c;
 Berg18_co2_SST_1m=(Temp_c*c(1))+c(2);
@@ -934,52 +872,53 @@ Berg18_co2_TSG_t=TSG_t;
 Berg18_co2_TSG_s=TSG_s;
 Berg18_co2_Scatter=Scatter;
 Berg18_co2_Pres_kpa=Pres_kpa;
-
+%% QC - these instruments were not working
 %these all seem to have bad data so will make them all nans here
 Berg18_co2_ph_temp=nan(length(Berg18_co2_TSG_t),1);%bad
 Berg18_co2_ph_avg=nan(length(Berg18_co2_TSG_t),1);%bad
 Berg18_co2_pcr300_temp=nan(length(Berg18_co2_TSG_t),1);%bad
 Berg18_co2_Skin_temp=nan(length(Berg18_co2_TSG_t),1); %bad
 Berg18_co2_Sea_temp=nan(length(Berg18_co2_TSG_t),1);%bad
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%     CO2 calculations  Part 1  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %use Wagner and garb 2002 to get water vapour
-    Berg18_co2_equtemp_kelvin=Berg18_co2_equtemp +273.15; %convert temperature into kelvin
-    temp_mod = 1-Berg18_co2_equtemp_kelvin./647.096;
-    vapor_0sal_kPa=(22.064e3)*(exp((647.076./(Berg18_co2_equtemp_kelvin)).*((-7.85951783*temp_mod)+((1.84408259)*(temp_mod.^(3/2)))+(-11.7866497*(temp_mod.^3))+(22.6807411*(temp_mod.^3.5))+(-15.9618719*(temp_mod.^4))+(1.80122502*(temp_mod.^7.5)))));
-    %Correct vapor pressure for salinity
-    molality = 31.998 * Berg18_co2_TSG_s ./(1e3-1.005*Berg18_co2_TSG_s);
-    osmotic_coef = 0.90799 -0.08992*(0.5*molality) +0.18458*(0.5*molality).^2 -0.07395*(0.5*molality).^3 -0.00221*(0.5*molality).^4;
-    vapor_press_kPa = vapor_0sal_kPa .* exp(-0.018 * osmotic_coef .* molality);
-    Vapour_pressure_mbar = 10*(vapor_press_kPa);%Convert to mbar
-    Vapour_pressure_atm=0.0098692327 .*Vapour_pressure_mbar;%convert to atm 1 millibar = 0.000986923267 atmosphere
-
-
-    %add woolf 2016/2019 corrections for skin to salinity and temp
-   Berg18_co2_SST_1m=Berg18_co2_SST_1m-0.17;
-   Berg18_co2_TSG_s=Berg18_co2_TSG_s+0.1;
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%     CO2 calculations  Part 2  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %use pressure from pco2 system
-    Berg18_co2_Pres_mbar = 10*(Berg18_co2_Pres_kpa);%Convert to mbar
-    Berg18_co2_Pres_atm= Berg18_co2_Pres_mbar *0.000986923; %convert from mb to atm
-    Berg18_co2_Pres_pa= Berg18_co2_Pres_mbar *100; %convert from mb to pa
-
-    Berg18_co2_LicorpCO2= Berg18_co2_CO2umm_cal.*(Berg18_co2_Pres_atm - Vapour_pressure_atm);%Correction for water vapour pressure as described in (dickson(2007)-section 8.5.3 TO GET PCO2
-    BCO2te= -1636.75 + (12.0408*(Berg18_co2_equtemp_kelvin)) - (3.27957*0.01*(Berg18_co2_equtemp_kelvin).^2) + (3.16528*0.00001*(Berg18_co2_equtemp_kelvin).^3);%units of cm^3 mol^-1 ,determine the two viral coefficents of co2, (Dickson 2007) SOP 24 and p98 section 8.3 use equilibrator_pressure and equilibrator_temperature
-    deltaCO2te= 57.7 - 0.118*( Berg18_co2_equtemp_kelvin); %units of cm^3 mol^-1
-    R=8.31447; %specific gas constant J/Mol*K
-    Berg18_co2_fco2= Berg18_co2_LicorpCO2.*exp(((BCO2te+(2*deltaCO2te))*0.000001.*(Berg18_co2_Pres_pa))./(R *Berg18_co2_equtemp_kelvin));%use viral coefficents to determine fco2
-    Berg18_co2_fco2_surface=Berg18_co2_fco2.*exp(0.0423*(Berg18_co2_SST_1m - Berg18_co2_equtemp));%correction of co2 to sea surface temperature , (Dickson 2007) p98 8.4
-    
-    Berg18_co2_pco2_surface=Berg18_co2_LicorpCO2.*exp(0.0423*(Berg18_co2_SST_1m - Berg18_co2_equtemp));%correction of co2 to sea surface temperature , (Dickson 2007) p98 8.4
-
-
-%%%%%%%%%%%%%%%%
-% FLUX 2018
-%%%%%%%%%%%%%%%%
-
-%load in U10 island data from Brian
+%% CO2 calculations  Part 1     
+%use Wagner and garb 2002 to get water vapour
+Berg18_co2_equtemp_kelvin=Berg18_co2_equtemp +273.15; %convert temperature into kelvin
+temp_mod = 1-Berg18_co2_equtemp_kelvin./647.096;
+vapor_0sal_kPa=(22.064e3)*(exp((647.076./(Berg18_co2_equtemp_kelvin)).*((-7.85951783*temp_mod)+((1.84408259)*(temp_mod.^(3/2)))+(-11.7866497*(temp_mod.^3))+(22.6807411*(temp_mod.^3.5))+(-15.9618719*(temp_mod.^4))+(1.80122502*(temp_mod.^7.5)))));
+%Correct vapor pressure for salinity
+molality = 31.998 * Berg18_co2_TSG_s ./(1e3-1.005*Berg18_co2_TSG_s);
+osmotic_coef = 0.90799 -0.08992*(0.5*molality) +0.18458*(0.5*molality).^2 -0.07395*(0.5*molality).^3 -0.00221*(0.5*molality).^4;
+vapor_press_kPa = vapor_0sal_kPa .* exp(-0.018 * osmotic_coef .* molality);
+Vapour_pressure_mbar = 10*(vapor_press_kPa);%Convert to mbar
+Vapour_pressure_atm=0.00098692327 .*Vapour_pressure_mbar;%convert to atm 1 millibar = 0.000986923267 atmosphere
+%% Add constants temperature and salinity constants to account for skin
+%add woolf 2016/2019 corrections for skin to salinity and temp
+Berg18_co2_SST_1m=Berg18_co2_SST_1m-0.17;
+Berg18_co2_TSG_s=Berg18_co2_TSG_s+0.1;
+%% CO2 calculations  Part 2       
+%use pressure from pco2 system
+Berg18_co2_Pres_mbar = 10*(Berg18_co2_Pres_kpa);%Convert to mbar
+Berg18_co2_Pres_atm= Berg18_co2_Pres_mbar *0.000986923; %convert from mb to atm
+Berg18_co2_Pres_pa= Berg18_co2_Pres_mbar *100; %convert from mb to pa
+%now simply multiple calibrated xco2 and pressure
+Berg18_co2_LicorpCO2= Berg18_co2_CO2umm_cal.*(Berg18_co2_Pres_atm);%
+%note we are not longer making a water vapour correction here. We had no dryer so assuming 100% humidity.
+BCO2te= -1636.75 + (12.0408*(Berg18_co2_equtemp_kelvin)) - (3.27957*0.01*(Berg18_co2_equtemp_kelvin).^2) + (3.16528*0.00001*(Berg18_co2_equtemp_kelvin).^3);%units of cm^3 mol^-1 ,determine the two viral coefficents of co2, (Dickson 2007) SOP 24 and p98 section 8.3 use equilibrator_pressure and equilibrator_temperature
+deltaCO2te= 57.7 - 0.118*( Berg18_co2_equtemp_kelvin); %units of cm^3 mol^-1
+R=8.31447; %specific gas constant J/Mol*K
+Berg18_co2_fco2= Berg18_co2_LicorpCO2.*exp(((BCO2te+(2*deltaCO2te))*0.000001.*(Berg18_co2_Pres_pa))./(R *Berg18_co2_equtemp_kelvin));%use viral coefficents to determine fco2
+Berg18_co2_fco2_surface=Berg18_co2_fco2.*exp(0.0423*(Berg18_co2_SST_1m - Berg18_co2_equtemp));%correction of co2 to sea surface temperature , (Dickson 2007) p98 8.4
+Berg18_co2_pco2_surface=Berg18_co2_LicorpCO2.*exp(0.0423*(Berg18_co2_SST_1m - Berg18_co2_equtemp));%correction of co2 to sea surface temperature , (Dickson 2007) p98 8.4
+%% Plot - raw xCO2, calibrated xCO2, pCO2 equ, pCO2 sw, fCO2 sw
+figure(8)
+plot(Berg18_co2_dt,Berg18_co2_pco2_surface,'r*')
+hold on
+plot(Berg18_co2_dt,Berg18_co2_fco2_surface,'g*')
+plot(Berg18_co2_dt,Berg18_co2_LicorpCO2,'y*')
+plot(Berg18_co2_dt,Berg18_co2_CO2umm_cal,'m*')
+ plot(Berg18_co2_dt,Berg18_co2_CO2umm,'k*')
+legend('pco2 surf','fco2 surf','pco2','xco2 cal','xco2 raw')
+dynamicDateTicks([], [], 'mm/dd');
+%% Load - U10 island wind speed data 
 load('C:\Users\rps207\Documents\Data\Field data\2021 - 01 - Bergmann pCO2/wind_data_rich.mat');
 Tower_ts=timestamp;
 Tower_u10=U10; 
@@ -994,7 +933,7 @@ dynamicDateTicks([], [], 'mm/dd');
 
 %interp wind onto Bergmann timestamp data
 Berg18_co2_u10=interp1(Tower_ts,Tower_u10,Berg18_co2_dt);
-
+%% Load - pCO2 air from Barrow Alaska
 %import ATMOSPHERIC CO2 from Barrow Alaska
 filename = 'C:\Users\rps207\Documents\Data\Field data\2021 - 01 - Bergmann pCO2\co2_brw_surface-insitu_1_ccgg_HourlyData.txt';
 delimiter = ' ';
@@ -1037,8 +976,7 @@ Barrow_pco2(p)=NaN;
 %interp atmco2 onto Bergmann timestamp data
 Berg18_co2_atmCO2=interp1(Barrow_DT,Barrow_pco2,Berg18_co2_dt);
 clearvars a b c d e f z ans day month hour minute year second ar ai as ah ag af Barrow_DT Barrow_pco2
-
-
+ %% Calculate - Air sea flux of CO2
  %inputs
  u10=Berg18_co2_u10;% wind speed m/s
  T=Berg18_co2_SST_1m;%temperature in degrees celsius (-0.17 degrees for the skin inclusive above)
@@ -1077,23 +1015,7 @@ clearvars a b c d e f z ans day month hour minute year second ar ai as ah ag af 
  %k0 - units of mol l-1 atm-1
  % units are then [ m d-1 u atm mol l-1 atm-1] ->  [   mmol m-2 d-1]
  Berg18_co2_FCO2_mmol_per_m2_per_d=Kw.*k0.*deltaCO2.*scal1; %Units of mmol m-2 d-1
-
- figure(891)
- scatter(Berg18_co2_Longitude,Berg18_co2_Latitude,10,Berg18_co2_dt)
- colorbar
- cbdate
- 
-figure(41)
-subplot(2,1,1)
-plot(Berg18_co2_dt,Berg18_co2_CO2umm_cal,'ko');
-subplot(2,1,2)
-plot(Berg18_co2_dt,Berg18_co2_Latitude,'ko');
- 
-
- % ==================================================================== %
- % Get AMSR Sea ice concentration
- % ==================================================================== %
-    
+%% Get AMSR Sea ice concentration - very slow
  %load AMSR grid
 grid_fname=('C:\Users\rps207\Documents\Data\Sea ice\ASMR2 - 3.125km\LongitudeLatitudeGrid-n3125-Arctic3125.hdf');
 grid_fileinfo = hdfinfo(grid_fname);
@@ -1210,18 +1132,15 @@ days_since_ice(ice_loop)=doy_sample-doy_ice_sub85;
 ice_loop
  end
 Berg18_days_since_ice=days_since_ice';
-
-
-
- clearvars  l molality osmotic_coef temp_mod vapor_0sal_kPa
+%% Delete temporary variables
+clearvars  l molality osmotic_coef temp_mod vapor_0sal_kPa
 clearvars c d e temp_matchup_tsg temp_matchup sal_matchup CTDtemp_1m CTDsal_1m CTDdt_1m CTDdepth_1m CTD_TEMP_1m CTD_SAL_1m CTD_DT_1m CTD_DEPTH_1m CTD_casts_2018 Berg
 clearvars Latitude Longitude n_records Flowrate H20_ppt Chl CO2_ppm Dt Dt_doy Flour Cell_p Cell_t TSG_t TSG_s Temp_v Temp_c Skin_temp Sea_temp Scatter Pres_v Pres_kpa ph_volt ph_temp ph_avg pcr300_temp
 clearvars ind_co2_meas ind_co2_samp negind y z Valvepos truestd slopes calend_STD2Ind calstart_STD2Ind ind_co2_atm ind_co2_samp1 ind_co2_samp2 ind_co2_samp2_end ind_co2_samp2_final ind_co2_samp2_flush ind_co2_samp2_flushing ind_co2_samp3 intercept interpolatedstd2 interpolatedvec l std_make_nan stdfiltind t
 clearvars w ghj f h n m b
 clearvars ans labelcat CTD_SAL_0_5m CTD_SAL_1_5m CTD_SAL_2m CTD_TEMP_0_5m CTD_TEMP_1_5m CTD_TEMP_2m CTDsal_0_5m CTDsal_1_5m CTDsal_2m CTDtemp_0_5m CTDtemp_1_5m CTDtemp_2m k labelcatans b  BCO2te deltaCO2te mfileDir path_cr300 path_eco path_pco2 path_tsg R TSG_e vapor_press_kPa Vapour_pressure_atm Vapour_pressure_mbar
 clearvars A A1 A2 A3 AA aaa B B1 B2 B3 bbb deltaCO2 C D E k0 k660 Kw NM numind p S Sc scal1 Schdep T Tk Tower_ts Tower_u10 Tower_u10n Tower_ws Tower_ws_avg u10 vb
-
-%GPS signal goes weird on way back from Bathurst- remove these
+%% QC - Bad data
 Berg18_co2_atmCO2(3700:6500)=nan;
 Berg18_co2_Cell_p(3700:6500)=nan;
 Berg18_co2_Cell_t(3700:6500)=nan;
@@ -1256,7 +1175,7 @@ Berg18_co2_TSG_s(3700:6500)=nan;
 Berg18_co2_TSG_t(3700:6500)=nan;
 Berg18_co2_u10(3700:6500)=nan;
 Berg18_days_since_ice(3700:6500)=nan;
-
+%% QC - Remove empty data
 [c]=~isnan(Berg18_co2_fco2_surface);
 %trim the matrix by removing values that are nan
 Berg18_co2_atmCO2=Berg18_co2_atmCO2(c);
@@ -1294,11 +1213,7 @@ Berg18_co2_TSG_t=Berg18_co2_TSG_t(c);
 Berg18_co2_u10=Berg18_co2_u10(c);
 Berg18_days_since_ice=Berg18_days_since_ice(c);
 clearvars c d
-
-%filter chlorophyll for bubbles and particles
+%% QC - filter the chlorophyll for bubbles or particles.
 Berg18_co2_Chl_despike=medfilt1(Berg18_co2_Chl,20);
-
-
+%% Save - processed data
 save('2018_undpCO2_proc.mat')
-
-
